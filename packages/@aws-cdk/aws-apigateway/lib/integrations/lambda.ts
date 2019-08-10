@@ -57,14 +57,14 @@ export class LambdaIntegration extends AwsIntegration {
 
     const desc = `${method.httpMethod}.${method.resource.path.replace(/\//g, '.')}`;
 
-    this.handler.addPermission(`ApiPermission.${desc}`, {
+    this.handler.addPermission(`${method.node.path}.ApiPermission.${desc}`, {
       principal,
       sourceArn: method.methodArn,
     });
 
     // add permission to invoke from the console
     if (this.enableTest) {
-      this.handler.addPermission(`ApiPermission.Test.${desc}`, {
+      this.handler.addPermission(`${method.node.path}.ApiPermission.Test.${desc}`, {
         principal,
         sourceArn: method.testMethodArn
       });
